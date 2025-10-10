@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phar-order</title>
+  <link rel="stylesheet" href="phar.css">
+</head>
+<body>
+
+  <nav>
+    <h1>MediPort</h1>
+    <div id="nav-part2">
+      <a href="pharome.html"><h3>Home</h3></a>
+      <a href="pharstock.html"><h3>Stock</h3></a>
+      <a href="pharmessage.html"><h3>Message</h3></a>
+      <h2><%= usernameconst1 %> </h2>
+    </div>
+  </nav>
+
+
+  <div id="page1">
+    <h1> </h1>
+    <h1> </h1>
+    <h1> </h1>
+    <h1> </h1>
+    <h1> </h1>  
+    <h1> </h1>
+    <h1> </h1>  
+    <h1> </h1>
+
+    <div class="signup-container">
+        
+        <h2 style="color:black; margin-bottom: 20px; "> Order Item</h2>
+        <form id="order-stock" action="/orderstock" method="POST" onsubmit="return preventDefaultSubmit()"> <!-- Added ID to the form -->
+            <input type="text" name="med_id" id="med_id" placeholder="med_id" required>
+            <input type="number" name="quantity" id="quantity" placeholder="quantity" required>
+            <input type="text" name="sup_id" id="sup_id" placeholder="sup_id" required>
+            <input type="submit" value="Order">
+        </form> 
+    </div>
+
+
+    <div class="signup-container">
+        
+      <h2 style="color:black; margin-bottom: 20px; "> Order Status</h2>
+      <form id="order-phar-status" action="/orderpharstatus" method="POST" onsubmit="return preventDefaultSubmit()"> <!-- Added ID to the form -->
+          <input type="text" name="order_id" id="order_id" placeholder="order_id" required>
+          <select name="status" id="status" required>
+            <option value="received">Received</option>
+        </select>
+          <input type="submit" value="Update Status">
+      </form> 
+  </div>
+
+<h1>Order Details</h1>
+
+    <% if (orderData && orderData.length) { %>
+      <table style="font-size: 1.6em;">
+        <thead>
+          <tr style="color:black;">
+            <th style="background-color: #ddd; padding: 5px;">order_id</th>
+            <th style="background-color: #ddd; padding: 5px;">med_id</th>
+            <th style="background-color: #ddd; padding: 5px;">quantity</th>
+            <th style="background-color: #ddd; padding: 5px;">sup_id</th>
+            <th style="background-color: #ddd; padding: 5px;">ordered on</th>
+            <th style="background-color: #ddd; padding: 5px;">status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const item of orderData) { %>
+          
+          <tr class="stock-row" style="color: white;" >
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.order_id %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.med_id %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.quantity %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.sup_id %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;">
+            <%- new Date(item.ordered_on).toLocaleDateString('en-US', {
+              weekday: 'short',  // Display abbreviated weekday (e.g., Mon)
+              year: 'numeric',    // Display full year (e.g., 2024)
+              month: 'long',      // Display full month name (e.g., May)
+              day: 'numeric'     // Display numeric day (e.g., 9)
+          }) %>
+          </td>
+          <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.status %></td>
+          </tr>
+        
+          
+          <% } %>
+        </tbody>
+      </table>
+    <% } else if (!(orderData && orderData.length)) { %>
+      <p>No stock data found.</p>
+    <% } %>
+
+    <h1>Supplier Details</h1>
+
+    <% if (suplistData1 && suplistData1.length) { %>
+      <table style="font-size: 1.6em;">
+        <thead>
+          <tr style="color:black;">
+            <th style="background-color: #ddd; padding: 5px;">supplier_id</th>
+            <th style="background-color: #ddd; padding: 5px;">med_id</th>
+            <th style="background-color: #ddd; padding: 5px;">description</th>
+            <th style="background-color: #ddd; padding: 5px;">availability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const item of suplistData1) { %>
+          
+          <tr class="stock-row" style="color: white;" >
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.username %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.med_id %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.descrip %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.availability %></td>
+          </tr>
+        
+          
+          <% } %>
+        </tbody>
+      </table>
+    <% } else if (!(suplistData1 && suplistData1.length)) { %>
+      <p>No stock data found.</p>
+    <% } %>
+
+
+  <script>
+    // Wait for the DOM content to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the form element
+        var form = document.getElementById('order-phar-status');
+
+        // Add event listener for form submission
+        form.addEventListener('submit', function(event) {
+           // event.preventDefault(); // Prevent the default form submission
+        function preventDefaultSubmit() {
+            event.preventDefault();    
+                // Collect form data
+                var formData = new FormData(form);
+                
+                // Log form data to console for debugging (optional)
+                console.log('Form Data:', formData);
+
+                // Send form data to the server using fetch API
+                fetch('/orderpharstatus', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        
+                       // window.location.href = "index.html";
+                    }
+                    else{
+                        // Optional: Redirect to login.html after successful signup (handled by app.js)
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(response => response.json()) // Parse JSON response
+                .then(data => {
+                    console.log(data); // Log the response from the server
+                    // Optionally, you can redirect the user to another page upon successful signup
+                    //window.location.href = 'index.html';
+                    if (data.redirectTo) {
+                       // window.location.href = data.redirectTo; // Redirect based on server response
+                        }
+                        else {
+                            console.error('Error:', data.message || 'Unknown error');
+                        }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+                return false;
+    }
+        });
+    });
+     // Prevent default form submission
+
+        
+
+       
+</script>
+
+
+    <h1> </h1>
+    <h1>_________</h1>
+
+    <script>
+        // Wait for the DOM content to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the form element
+            var form = document.getElementById('order-stock');
+
+            // Add event listener for form submission
+            form.addEventListener('submit', function(event) {
+               // event.preventDefault(); // Prevent the default form submission
+            function preventDefaultSubmit() {
+                event.preventDefault();    
+                    // Collect form data
+                    var formData = new FormData(form);
+                    
+                    // Log form data to console for debugging (optional)
+                    console.log('Form Data:', formData);
+    
+                    // Send form data to the server using fetch API
+                    fetch('/orderstock', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            
+                           // window.location.href = "index.html";
+                        }
+                        else{
+                            // Optional: Redirect to login.html after successful signup (handled by app.js)
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(response => response.json()) // Parse JSON response
+                    .then(data => {
+                        console.log(data); // Log the response from the server
+                        // Optionally, you can redirect the user to another page upon successful signup
+                        //window.location.href = 'index.html';
+                        if (data.redirectTo) {
+                           // window.location.href = data.redirectTo; // Redirect based on server response
+                            }
+                            else {
+                                console.error('Error:', data.message || 'Unknown error');
+                            }
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                    return false;
+        }
+            });
+        });
+         // Prevent default form submission
+
+            
+
+           
+    </script>
+
+
+
+  </div>
+
+</body>
+</html>

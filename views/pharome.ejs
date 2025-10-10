@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phar-details</title>
+  <link rel="stylesheet" href="phar.css">
+</head>
+<body>
+
+<nav>
+  <h1>MediPort</h1>
+ 
+  <div id="nav-part2">
+     <a href="pharstock.html"><h3>Stock</h3></a>
+     <a href="pharorder.html"><h3>Order</h3></a>
+     <a href="pharmessage.html"><h3>Message</h3></a>
+     <a href="login.html"><h3>LogOut</h3></a>
+     <h2><%= pharmacyDetails.username %> </h2>
+  </div>
+</nav>
+
+
+  <div id="page1">
+    <h1> </h1>
+    <h1> </h1>
+    <h1> </h1>
+    <h1> </h1>
+    <h1>Pharmacy Details</h1>
+  
+    <% if (pharmacyDetails) { %>
+      <p style="color: black; font-size: 4vh;">Username: <%= pharmacyDetails.username %></p>
+      <p style="color: black; font-size: 4vh;">Pharmacy Name: <%= pharmacyDetails.pharmacyname %></p>
+      <p style="color: black; font-size: 4vh;">Location: <%= pharmacyDetails.location %></p>
+      <p style="color: black; font-size: 4vh;">Pin No: <%= pharmacyDetails.pinno %></p>
+      <p style="color: black; font-size: 4vh;">Contact Number: <%= pharmacyDetails.contactnumber %></p>
+      <p style="color: black; font-size: 4vh;">Established: <%= 
+        new Date(pharmacyDetails.established).toLocaleDateString('en-GB', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        }).split('/').join('/') 
+      %></p>
+      <% } else { %>
+      <p>Pharmacy details not found.</p>
+    <% } %>
+
+    <h1> </h1>
+        <h1>_________</h1>
+          
+</div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phar-details</title>
+  <link rel="stylesheet" href="phar.css">
+</head>
+<body>
+
+<nav>
+  <h1>MediPort</h1>
+  <div id="nav-part2">
+    <!-- <a href="/views/pharome.ejs"><h3>Home</h3></a> -->
+     <a href="pharstock.html"><h3>Stock</h3></a>
+     <a href="pharorder.html"><h3>Order</h3></a>
+  </div>
+</nav>
+
+
+  <div id="page1">
+    <centre>
+        <div class="signup-container">
+            <h2 style="color:black">Details</h2>
+            <form id="signup-form" action="/pharprof" method="POST" onsubmit="return preventDefaultSubmit()"> <!-- Added ID to the form -->
+                <!-- <input type="text" name="username" id="username" placeholder="username" required> -->
+                <input type="text" name="pharmacyname" id="pharmacyname" placeholder="pharmacy name" required>
+                <input type="text" name="location" id="location" placeholder="location" required>
+                <input type="text" name="pinno" id="pinno" placeholder="pin no" required>
+                <input type="tel" name="contactnumber" id="contactnumber" placeholder="contact number" required>
+                <input type="date" name="established" id="established" id="established" required>
+                <input type="submit" value="Save">
+            </form>
+            <script>
+                // Wait for the DOM content to be fully loaded
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Get the form element
+                    var form = document.getElementById('signup-form');
+        
+                    // Add event listener for form submission
+                    form.addEventListener('submit', function(event) {
+                       // event.preventDefault(); // Prevent the default form submission
+                    function preventDefaultSubmit() {
+                        event.preventDefault();    
+                            // Collect form data
+                            var formData = new FormData(form);
+                            
+                            // Log form data to console for debugging (optional)
+                            console.log('Form Data:', formData);
+            
+                            // Send form data to the server using fetch API
+                            fetch('/pharprof', {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    
+                                   // window.location.href = "index.html";
+                                }
+                                else{
+                                    // Optional: Redirect to login.html after successful signup (handled by app.js)
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.text();
+                            })
+                            .then(response => response.json()) // Parse JSON response
+                            .then(data => {
+                                console.log(data); // Log the response from the server
+                                // Optionally, you can redirect the user to another page upon successful signup
+                                //window.location.href = 'index.html';
+                                if (data.redirectTo) {
+                                   // window.location.href = data.redirectTo; // Redirect based on server response
+                                    }
+                                    else {
+                                        console.error('Error:', data.message || 'Unknown error');
+                                    }
+                            })
+                            .catch(error => {
+                                console.error('There was a problem with the fetch operation:', error);
+                            });
+                            return false;
+                }
+                    });
+                });
+                 // Prevent default form submission
+
+                    
+
+                   
+            </script>
+        </div>
+    </centre>
+          
+</div>
+
+
+
+</body>
+</html>

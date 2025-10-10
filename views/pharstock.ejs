@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phar-stock</title>
+  <link rel="stylesheet" href="phar.css">
+</head>
+<body>
+
+  <nav>
+    <h1>MediPort</h1>
+    <div id="nav-part2">
+      <a href="pharome.html"><h3>Home</h3></a>
+      <a href="pharorder.html"><h3>Order</h3></a>
+      <a href="pharmessage.html"><h3>Message</h3></a>
+      <h2><%= usernameconst1 %> </h2>
+    </div>
+  </nav>
+
+
+  <div id="page1">
+    <h1> </h1>
+    <h1> </h1>
+    <h1> </h1>
+    <h1> </h1>
+    <h1> </h1>
+
+    <div class="signup-container">
+        
+        <h2 style="color:black; margin-bottom: 20px; "> Enter Stock</h2>
+        <form id="new-stock" action="/newstock" method="POST" onsubmit="return preventDefaultSubmit()"> <!-- Added ID to the form -->
+            <input type="text" name="med_id" id="med_id" placeholder="med_id" required>
+            <input type="text" name="descrip" id="descrip" placeholder="descrip" >
+            <input type="number" name="price" id="price" placeholder="price">
+            <input type="number" name="min_count" id="min_count" placeholder="min_count">
+            <input type="number" name="quantity" id="quantity" placeholder="quantity" required>
+            <input type="submit" value="Enter">
+        </form> 
+    </div>
+
+
+
+
+<h1>Stock Details</h1>
+
+    <% if (stockData && stockData.length) { %>
+      <table style="font-size: 1.6em;">
+        <thead>
+          <tr style="color:black;">
+            <th style="background-color: #ddd; padding: 5px;">med_id</th>
+            <th style="background-color: #ddd; padding: 5px;">description</th>
+            <th style="background-color: #ddd; padding: 5px;">price</th>
+            <th style="background-color: #ddd; padding: 5px;">min_count</th>
+            <th style="background-color: #ddd; padding: 5px;">quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const item of stockData) { %>
+          <% if(item.quantity >= item.min_count) { %>
+          <tr class="stock-row" style="color: white;" data-quantity="<%= item.quantity %>" data-min-count="<%= item.min_count %>">
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.med_id %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.descrip %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.price %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.min_count %></td>
+            <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.quantity %></td>
+          </tr>
+        
+          <% } else if (item.quantity < item.min_count) { %>
+            <tr class="stock-row" style="color:white" data-quantity="<%= item.quantity %>" data-min-count="<%= item.min_count %>">
+                <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item.med_id %></td>
+                <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item.descrip %></td>
+                <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item.price %></td>
+                <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item.min_count %></td>
+                <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item.quantity %></td>
+              </tr>
+          <% } %>
+          <% } %>
+        </tbody>
+      </table>
+    <% } else if (!(stockData && stockData.length)) { %>
+      <p>No stock data found.</p>
+    <% } %>
+
+    <h1> </h1>
+    <h1>_________</h1>
+
+    <script>
+        // Wait for the DOM content to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the form element
+            var form = document.getElementById('new-stock');
+
+            // Add event listener for form submission
+            form.addEventListener('submit', function(event) {
+               // event.preventDefault(); // Prevent the default form submission
+            function preventDefaultSubmit() {
+                event.preventDefault();    
+                    // Collect form data
+                    var formData = new FormData(form);
+                    
+                    // Log form data to console for debugging (optional)
+                    console.log('Form Data:', formData);
+    
+                    // Send form data to the server using fetch API
+                    fetch('/newstock', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            
+                           // window.location.href = "index.html";
+                        }
+                        else{
+                            // Optional: Redirect to login.html after successful signup (handled by app.js)
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(response => response.json()) // Parse JSON response
+                    .then(data => {
+                        console.log(data); // Log the response from the server
+                        // Optionally, you can redirect the user to another page upon successful signup
+                        //window.location.href = 'index.html';
+                        if (data.redirectTo) {
+                           // window.location.href = data.redirectTo; // Redirect based on server response
+                            }
+                            else {
+                                console.error('Error:', data.message || 'Unknown error');
+                            }
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                    return false;
+        }
+            });
+        });
+         // Prevent default form submission
+
+            
+
+           
+    </script>
+
+
+
+  </div>
+
+</body>
+</html>

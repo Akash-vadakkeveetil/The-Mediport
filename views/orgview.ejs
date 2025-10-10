@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organization-view-stock</title>
+  <link rel="stylesheet" href="phar.css">
+</head>
+<body>
+
+  <nav>
+    <h1>MediPort</h1>
+    <div id="nav-part2">
+      <a href="orgome.html"><h3>Home</h3></a>
+      <a href="orgorder.html"><h3>Orders</h3></a>
+      <a href="orgmessage.html"><h3>Message</h3></a>
+    </div>
+  </nav>
+
+
+  <div id="page1">
+    <h1> </h1>
+    <h1> </h1>
+<h1> </h1>
+<h1> </h1>
+<h1> </h1>
+<h1> </h1>
+<h1> </h1>
+
+<div class="signup-container">
+        
+  <h2 style="color:black; margin-bottom: 20px; ">Pharmacy Stock</h2>
+  <form id="org-show-stock" action="/orgshowstock" method="POST" onsubmit="return preventDefaultSubmit()"> <!-- Added ID to the form -->
+      <input type="text" name="username" id="username" placeholder="pharmacy_id" required>
+      <input type="submit" value="Show Stock">
+  </form> 
+</div>
+
+<h1>Stock</h1>
+
+<% if (Array.isArray(orgstockData) && orgstockData.length > 0) { %>
+<table style="font-size: 1.6em;">
+  <thead>
+    <tr style="color:black;">
+      <th style="background-color: #ddd; padding: 5px;">med_id</th>
+      <th style="background-color: #ddd; padding: 5px;">description</th>
+      <th style="background-color: #ddd; padding: 5px;">price</th>
+      <th style="background-color: #ddd; padding: 5px;">min_count</th>
+      <th style="background-color: #ddd; padding: 5px;">quantity</th>
+      <th style="background-color: #ddd; padding: 5px;">last updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (const item1 of orgstockData) { %>
+      <% if (item1.quantity < item1.min_count) { %>
+          <tr class="stock-row" style="color:white" data-quantity="<%= item1.quantity %>" data-min-count="<%= item1.min_count %>">
+              <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item1.med_id %></td>
+              <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item1.descrip %></td>
+              <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item1.price %></td>
+              <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item1.min_count %></td>
+              <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;"><%= item1.quantity %></td>
+              <td style="background-color: rgb(250, 119, 119); padding: 5px; color:black;">
+                <%- new Date(item1.last_updated).toLocaleDateString('en-US', {
+                  weekday: 'short',  // Display abbreviated weekday (e.g., Mon)
+                  year: 'numeric',    // Display full year (e.g., 2024)
+                  month: 'long',      // Display full month name (e.g., May)
+                  day: 'numeric'     // Display numeric day (e.g., 9)
+              }) %>
+              </td>
+            </tr>
+        <% }  else if(item1.quantity >= item1.min_count) { %>
+          <tr class="stock-row" style="color:white" data-quantity="<%= item1.quantity %>" data-min-count="<%= item1.min_count %>">
+              <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.med_id %></td>
+              <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.descrip %></td>
+              <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.price %></td>
+              <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.min_count %></td>
+              <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.quantity %></td>
+              <td style="background-color: #ddd; padding: 5px; color:black;">
+                <%- new Date(item1.last_updated).toLocaleDateString('en-US', {
+                  weekday: 'short',  // Display abbreviated weekday (e.g., Mon)
+                  year: 'numeric',    // Display full year (e.g., 2024)
+                  month: 'long',      // Display full month name (e.g., May)
+                  day: 'numeric'     // Display numeric day (e.g., 9)
+              }) %>
+              </td>
+            </tr>
+      <% } %>
+    <% } %>
+  </tbody>
+</table>
+<% } else if (!(orgstockData)) { %>
+<p>No stock data found.</p>
+<% } %>
+
+<h1>Pharmacies</h1>
+
+    <% if (pharmacyData) { %>
+      <table style="font-size: 1.6em;">
+        <thead>
+          <tr style="color:black;">
+            <th style="background-color: #ddd; padding: 5px;">username</th>
+            <th style="background-color: #ddd; padding: 5px;">pharmacyname</th>
+            <th style="background-color: #ddd; padding: 5px;">location</th>
+            <th style="background-color: #ddd; padding: 5px;">pin no</th>
+            <th style="background-color: #ddd; padding: 5px;">contactnumber</th>
+            <th style="background-color: #ddd; padding: 5px;">established</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const item of pharmacyData) { %>
+            <tr class="stock-row" style="color:white">
+                <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.username %></td>
+                <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.pharmacyname %></td>
+                <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.location %></td>
+                <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.pinno %></td>
+                <td style="background-color: #ddd; padding: 5px; color:black;"><%= item.contactnumber %></td>
+                <td style="background-color: #ddd; padding: 5px; color:black;">
+                  <%= 
+                  new Date(item.established).toLocaleDateString('en-GB', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                  }).split('/').join('/') 
+                %>  
+                </td>
+              </tr>
+          <% } %>
+        </tbody>
+      </table>
+    <% } else if (!(pharmacyData)) { %>
+      <p>No stock data found.</p>
+    <% } %>
+
+    <h1> </h1>
+    <h1>_________</h1>
+
+    <script>
+        // Wait for the DOM content to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the form element
+            var form = document.getElementById('org-show-stock');
+
+            // Add event listener for form submission
+            form.addEventListener('submit', function(event) {
+               // event.preventDefault(); // Prevent the default form submission
+            function preventDefaultSubmit() {
+                event.preventDefault();    
+                    // Collect form data
+                    var formData = new FormData(form);
+                    
+                    // Log form data to console for debugging (optional)
+                    console.log('Form Data:', formData);
+    
+                    // Send form data to the server using fetch API
+                    fetch('/orgshowstock', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            
+                           // window.location.href = "index.html";
+                        }
+                        else{
+                            // Optional: Redirect to login.html after successful signup (handled by app.js)
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(response => response.json()) // Parse JSON response
+                    .then(data => {
+                        console.log(data); // Log the response from the server
+                        // Optionally, you can redirect the user to another page upon successful signup
+                        //window.location.href = 'index.html';
+                        if (data.redirectTo) {
+                           // window.location.href = data.redirectTo; // Redirect based on server response
+                            }
+                            else {
+                                console.error('Error:', data.message || 'Unknown error');
+                            }
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                    return false;
+        }
+            });
+        });
+         // Prevent default form submission
+
+            
+
+           
+    </script>
+
+
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacy-message</title>
+  <link rel="stylesheet" href="phar.css">
+</head>
+<body>
+
+  <nav>
+    <h1>MediPort</h1>
+    <div id="nav-part2">
+      <a href="pharome.html"><h3>Home</h3></a>
+      <a href="pharstock.html"><h3>Stock</h3></a>
+     <a href="pharorder.html"><h3>Order</h3></a>
+     <h2><%= usernameconst1 %> </h2>
+    </div>
+  </nav>
+
+
+  <div id="page1">
+    <h1> </h1>
+    <h1> </h1>
+
+    <h1>Messages</h1>
+
+    <% if (Array.isArray(pharmsgData) && pharmsgData.length > 0) { %>
+      <table style="font-size: 1.6em;">
+        <tbody>
+          <% for (const item of pharmsgData) { %>
+                <tr class="stock-row" style="color:white">
+                    <td style="background-color: #fbdede; padding: 5px; color:black;">For item <%= item.med_id %>, <%= item.msg%> ,received on <%- new Date(item.send_on).toLocaleDateString('en-US', {
+                        weekday: 'short',  // Display abbreviated weekday (e.g., Mon)
+                        year: 'numeric',    // Display full year (e.g., 2024)
+                        month: 'long',      // Display full month name (e.g., May)
+                        day: 'numeric'     // Display numeric day (e.g., 9)
+                    }) %> 
+                    </td>
+                  </tr>
+            <% } %>
+        </tbody>
+      </table>
+    <% } else if (!(pharmsgData)) { %>
+      <p>No stock data found.</p>
+    <% } %>
+
+    <h1> </h1>
+    <h1>_________</h1>
+    
+  </div>
+
+</body>
+</html>

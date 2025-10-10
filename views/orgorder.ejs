@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organization-view-order</title>
+  <link rel="stylesheet" href="phar.css">
+</head>
+<body>
+
+  <nav>
+    <h1>MediPort</h1>
+    <div id="nav-part2">
+      <a href="orgome.html"><h3>Home</h3></a>
+      <a href="orgview.html"><h3>Stocks</h3></a>
+      <a href="orgmessage.html"><h3>Message</h3></a>
+    </div>
+  </nav>
+
+
+  <div id="page1">
+    <h1> </h1>
+    <h1> </h1>
+<h1> </h1>
+
+    <div class="signup-container">
+        
+        <h2 style="color:black; margin-bottom: 20px; ">Orders</h2>
+        <form id="org-show-order" action="/orgshoworder" method="POST" onsubmit="return preventDefaultSubmit()"> <!-- Added ID to the form -->
+            <input type="text" name="username" id="username" placeholder="pharmacy_id" required>
+            <input type="submit" value="Show Stock">
+        </form> 
+    </div>
+
+    <h1>Orders</h1>
+
+    <% if (Array.isArray(orgorderData) && orgorderData.length > 0) { %>
+      <table style="font-size: 1.6em;">
+        <thead>
+          <tr style="color:black;">
+            <th style="background-color: #ddd; padding: 5px;">order_id</th>
+            <th style="background-color: #ddd; padding: 5px;">med_id</th>
+            <th style="background-color: #ddd; padding: 5px;">quantity</th>
+            <th style="background-color: #ddd; padding: 5px;">supplier_id</th>
+            <th style="background-color: #ddd; padding: 5px;">ordered on</th>
+            <th style="background-color: #ddd; padding: 5px;">status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const item1 of orgorderData) { %>
+                <tr class="stock-row" style="color:white">
+                  <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.order_id %></td>
+                    <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.med_id %></td>
+                    <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.quantity %></td>
+                    <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.sup_id%></td>
+                    <td style="background-color: #ddd; padding: 5px; color:black;">
+                      <%- new Date(item1.ordered_on).toLocaleDateString('en-US', {
+                        weekday: 'short',  // Display abbreviated weekday (e.g., Mon)
+                        year: 'numeric',    // Display full year (e.g., 2024)
+                        month: 'long',      // Display full month name (e.g., May)
+                        day: 'numeric'     // Display numeric day (e.g., 9)
+                    }) %> 
+                    </td>
+                    <td style="background-color: #ddd; padding: 5px; color:black;"><%= item1.status %></td>
+                  </tr>
+            <% } %>
+        </tbody>
+      </table>
+    <% } else if (!(orgorderData)) { %>
+      <p>No stock data found.</p>
+    <% } %>
+
+    <h1> </h1>
+    <h1>_________</h1>
+
+    <script>
+        // Wait for the DOM content to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the form element
+            var form = document.getElementById('org-show-order');
+
+            // Add event listener for form submission
+            form.addEventListener('submit', function(event) {
+               // event.preventDefault(); // Prevent the default form submission
+            function preventDefaultSubmit() {
+                event.preventDefault();    
+                    // Collect form data
+                    var formData = new FormData(form);
+                    
+                    // Log form data to console for debugging (optional)
+                    console.log('Form Data:', formData);
+    
+                    // Send form data to the server using fetch API
+                    fetch('/orgshoworder', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            
+                           // window.location.href = "index.html";
+                        }
+                        else{
+                            // Optional: Redirect to login.html after successful signup (handled by app.js)
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(response => response.json()) // Parse JSON response
+                    .then(data => {
+                        console.log(data); // Log the response from the server
+                        // Optionally, you can redirect the user to another page upon successful signup
+                        //window.location.href = 'index.html';
+                        if (data.redirectTo) {
+                           // window.location.href = data.redirectTo; // Redirect based on server response
+                            }
+                            else {
+                                console.error('Error:', data.message || 'Unknown error');
+                            }
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                    return false;
+        }
+            });
+        });
+         // Prevent default form submission
+
+            
+
+           
+    </script>
+
+
+
+  </div>
+
+</body>
+</html>

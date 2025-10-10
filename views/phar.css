@@ -1,0 +1,120 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: gilroy;
+  }
+  
+  body{
+    height: 100%;
+    width: 100%;
+    color: white;
+  }
+  
+  nav{
+    position: fixed;
+    background-color:#4CAF50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 3vw 5vw;
+  }
+  
+  nav h1{
+    font-size: 5vh;
+    font-weight: 5vh;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  #nav-part2{
+    display: flex;
+    gap: 5vw;
+    /* padding-right: 0.1vw; */
+    color: white;
+  }
+  
+  #nav-part2 button{
+    background-color: rgb(20, 19, 19);
+    width: 120px;
+    height: 30px;
+    font-size: 25px;
+    color: white;
+    border-radius: 50px;
+  }
+  
+  #nav-part2 h3{
+    color:white;
+    font-size: 3vh;
+  }
+  
+  #nav-part2 h3:hover{
+    color: black;
+  } 
+  
+  #page1{
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  #page1 h1
+  {
+    font-weight: 120;
+    color: black;
+    font-size: 5vh;
+    padding-top: 120px;
+    /* padding-bottom: 150px; */
+    margin-top: 120px;
+  }
+
+  
+  
+  /* Form Styling
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 50%; 
+    margin: 0 auto;
+  }
+  
+  label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: black;
+  }
+  
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  button[type="submit"] {
+    background-color: #4CAF50; 
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px; 
+    width: 100px;
+  }
+  .table{
+    color:black;
+    border: 2px solid;
+  }
+  .table tr{
+    border: 1px solid;
+  }
+  .table td{
+    border: 1px solid;
+  } */
