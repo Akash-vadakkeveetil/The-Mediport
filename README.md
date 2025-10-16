@@ -25,6 +25,20 @@ These where the main reasons which paved for the development of this project
 - **Comprehensive Reports:** Pharmacy managers have access to historical usage patterns and order histories to enable data-driven decisions.
 - **SaaS Model:** No upfront investment in hardware or software—MediPort is accessible to pharmacies of all sizes.
 
+## Modules
+- **User Management:** Authentication and profile management for pharmacists.
+- **Medicine Inventory Management:** Adding medicines, managing stock, and expiry alerts.
+- **Order Management:** Placing and processing orders with suppliers.
+- **Admin and Supplier Interfaces:** Administrative workflow and supplier order fulfillment.
+
+## Architecture
+
+![Architecture Diagram](IMG/System%20arch.png)
+
+## UML Diagram
+
+![UML DIAGRAM](IMG/UML.png)
+
 ## Technology Stack
 - **Frontend:** HTML, CSS (for structure and styling)
 - **Backend:** Node.js (server-side logic and scalability)
@@ -32,12 +46,6 @@ These where the main reasons which paved for the development of this project
 - **Database:** MySQL (secure data storage and management)
 - **Database Interface:** phpMyAdmin (GUI for database manipulation)
 - **Development Tools:** Visual Studio Code, other IDEs
-
-## Modules
-- **User Management:** Authentication and profile management for pharmacists.
-- **Medicine Inventory Management:** Adding medicines, managing stock, and expiry alerts.
-- **Order Management:** Placing and processing orders with suppliers.
-- **Admin and Supplier Interfaces:** Administrative workflow and supplier order fulfillment.
 
 ## Installation
 1. **Clone the Repository**

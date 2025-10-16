@@ -5,7 +5,7 @@ const path = require('path');
 const mysql2 = require('mysql2/promise');
 const ejs = require('ejs');
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 //ejs connection
 app.set('view engine', 'ejs');
 app.set("views",path.resolve("./views"));
@@ -19,7 +19,7 @@ const pool = mysql.createPool({
     connectionLimit: 10000,
     host: 'localhost',
     user: 'root', // Your MySQL username
-    password: '', // Your MySQL password (leave empty if you haven't set any)
+    password: 'root', // Your MySQL password (leave empty if you haven't set any)
     database: 'medisup1'
 });
 
