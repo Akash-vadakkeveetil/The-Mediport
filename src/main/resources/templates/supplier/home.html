@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Home - Mediport</title>
+    <link rel="stylesheet" th:href="@{/css/phar.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Supplier Dashboard</h1>
+        <nav>
+            <a th:href="@{/supplier/home}"><h3>Home</h3></a>
+            <a th:href="@{/supplier/list}"><h3>My Catalog</h3></a>
+            <a th:href="@{/logout}"><h3>Logout</h3></a>
+        </nav>
+
+        <h2>Orders to Fulfill</h2>
+        <table th:if="${!supplierData.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Pharmacy</th>
+                    <th>Medicine Code</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Ordered Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="order : ${supplierData}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.pharmacy.pharmacyName}"></td>
+                    <td th:text="${order.medicine.medicineCode}"></td>
+                    <td th:text="${order.quantity}"></td>
+                    <td th:text="${order.status}"></td>
+                    <td th:text="${#temporals.format(order.orderedDate, 'dd-MM-yyyy')}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Update Order Status</h2>
+        <form th:action="@{/supplier/ordersupstatus}" method="post">
+            <input type="number" name="order_id" placeholder="Order ID" required/>
+            <select name="status" required>
+                <option value="SUPPLIED">Mark as Supplied</option>
+            </select>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="submit" value="Update Status"/>
+        </form>
+
+        <h2>All Pharmacies</h2>
+        <table th:if="${!pharmacyData.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Pharmacy Name</th>
+                    <th>Location</th>
+                    <th>Contact Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pharmacy : ${pharmacyData}">
+                    <td th:text="${pharmacy.pharmacyName}"></td>
+                    <td th:text="${pharmacy.location}"></td>
+                    <td th:text="${pharmacy.contactNumber}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

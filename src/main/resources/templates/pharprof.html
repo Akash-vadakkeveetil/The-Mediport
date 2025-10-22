@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pharmacy Profile - Mediport</title>
+    <link rel="stylesheet" th:href="@{/css/signup_styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Pharmacy Profile Setup</h1>
+        <form th:action="@{/pharprof}" method="post">
+            <input type="text" name="pharmacyname" placeholder="Pharmacy Name" required/>
+            <input type="text" name="location" placeholder="Location" required/>
+            <input type="number" name="pinno" placeholder="PIN Code" required/>
+            <input type="number" name="contactnumber" placeholder="Contact Number" required/>
+            <input type="date" name="established" required/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="submit" value="Save Profile"/>
+
+            <div th:if="${error}" class="error" style="color: red; margin-top: 10px;" th:text="${error}"></div>
+        </form>
+    </div>
+</body>
+</html>

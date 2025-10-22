@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Organization Messages - Mediport</title>
+    <link rel="stylesheet" th:href="@{/css/phar.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Organization Messages</h1>
+        <nav>
+            <a th:href="@{/organization/home}"><h3>Home</h3></a>
+            <a th:href="@{/organization/view}"><h3>View Pharmacy Stock</h3></a>
+            <a th:href="@{/organization/order}"><h3>View Orders</h3></a>
+            <a th:href="@{/organization/message}"><h3>Messages</h3></a>
+            <a th:href="@{/logout}"><h3>Logout</h3></a>
+        </nav>
+
+        <h2>Send Message to Pharmacy</h2>
+        <form th:action="@{/organization/orgmsg}" method="post">
+            <input type="text" name="username" placeholder="Pharmacy Username" required/>
+            <input type="text" name="med_id" placeholder="Medicine Code" required/>
+            <textarea name="msg" placeholder="Message" required></textarea>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="submit" value="Send Message"/>
+        </form>
+
+        <h2>Sent Messages</h2>
+        <table th:if="${!orgmsgData.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Pharmacy</th>
+                    <th>Medicine Code</th>
+                    <th>Message</th>
+                    <th>Sent Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="msg : ${orgmsgData}">
+                    <td th:text="${msg.pharmacy.pharmacyName}"></td>
+                    <td th:text="${msg.medicine.medicineCode}"></td>
+                    <td th:text="${msg.messageText}"></td>
+                    <td th:text="${#temporals.format(msg.sentDate, 'dd-MM-yyyy')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

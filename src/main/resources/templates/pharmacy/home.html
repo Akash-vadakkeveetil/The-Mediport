@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pharmacy Home - Mediport</title>
+    <link rel="stylesheet" th:href="@{/css/phar.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Pharmacy Dashboard</h1>
+        <nav>
+            <a th:href="@{/pharmacy/home}"><h3>Home</h3></a>
+            <a th:href="@{/pharmacy/stock}"><h3>Stock</h3></a>
+            <a th:href="@{/pharmacy/order}"><h3>Orders</h3></a>
+            <a th:href="@{/pharmacy/message}"><h3>Messages</h3></a>
+            <a th:href="@{/logout}"><h3>Logout</h3></a>
+        </nav>
+
+        <h2>Pharmacy Profile</h2>
+        <div th:if="${pharmacyDetails}">
+            <p><strong>Pharmacy Name:</strong> <span th:text="${pharmacyDetails.pharmacyName}"></span></p>
+            <p><strong>Location:</strong> <span th:text="${pharmacyDetails.location}"></span></p>
+            <p><strong>PIN Code:</strong> <span th:text="${pharmacyDetails.pinCode}"></span></p>
+            <p><strong>Contact Number:</strong> <span th:text="${pharmacyDetails.contactNumber}"></span></p>
+            <p><strong>Established Date:</strong> <span th:text="${#temporals.format(pharmacyDetails.establishedDate, 'dd-MM-yyyy')}"></span></p>
+        </div>
+    </div>
+</body>
+</html>

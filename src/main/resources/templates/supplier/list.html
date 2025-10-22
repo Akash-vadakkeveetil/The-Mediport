@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Catalog - Mediport</title>
+    <link rel="stylesheet" th:href="@{/css/phar.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Supplier Catalog Management</h1>
+        <nav>
+            <a th:href="@{/supplier/home}"><h3>Home</h3></a>
+            <a th:href="@{/supplier/list}"><h3>My Catalog</h3></a>
+            <a th:href="@{/logout}"><h3>Logout</h3></a>
+        </nav>
+
+        <h2>My Medicine Catalog</h2>
+        <table th:if="${!suplistData.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Medicine Code</th>
+                    <th>Description</th>
+                    <th>Availability</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${suplistData}">
+                    <td th:text="${item.medicine.medicineCode}"></td>
+                    <td th:text="${item.medicine.description}"></td>
+                    <td th:text="${item.availability}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Add/Update Catalog Item</h2>
+        <form th:action="@{/supplier/listsup}" method="post">
+            <input type="text" name="med_id" placeholder="Medicine Code" required/>
+            <input type="text" name="descrip" placeholder="Description (for new medicine)"/>
+            <select name="availability" required>
+                <option value="available">Available</option>
+                <option value="not_available">Not Available</option>
+            </select>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="submit" value="Add/Update"/>
+        </form>
+    </div>
+</body>
+</html>

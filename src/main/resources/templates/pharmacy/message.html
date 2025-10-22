@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pharmacy Messages - Mediport</title>
+    <link rel="stylesheet" th:href="@{/css/phar.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Pharmacy Messages</h1>
+        <nav>
+            <a th:href="@{/pharmacy/home}"><h3>Home</h3></a>
+            <a th:href="@{/pharmacy/stock}"><h3>Stock</h3></a>
+            <a th:href="@{/pharmacy/order}"><h3>Orders</h3></a>
+            <a th:href="@{/pharmacy/message}"><h3>Messages</h3></a>
+            <a th:href="@{/logout}"><h3>Logout</h3></a>
+        </nav>
+
+        <h2>Messages from Organization</h2>
+        <table th:if="${!pharmsgData.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Medicine Code</th>
+                    <th>Message</th>
+                    <th>Sent Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="msg : ${pharmsgData}">
+                    <td th:text="${msg.medicine.medicineCode}"></td>
+                    <td th:text="${msg.messageText}"></td>
+                    <td th:text="${#temporals.format(msg.sentDate, 'dd-MM-yyyy')}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p th:if="${pharmsgData.isEmpty()}">No messages yet.</p>
+    </div>
+</body>
+</html>

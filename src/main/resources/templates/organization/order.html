@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Orders - Mediport</title>
+    <link rel="stylesheet" th:href="@{/css/phar.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>View Pharmacy Orders</h1>
+        <nav>
+            <a th:href="@{/organization/home}"><h3>Home</h3></a>
+            <a th:href="@{/organization/view}"><h3>View Pharmacy Stock</h3></a>
+            <a th:href="@{/organization/order}"><h3>View Orders</h3></a>
+            <a th:href="@{/organization/message}"><h3>Messages</h3></a>
+            <a th:href="@{/logout}"><h3>Logout</h3></a>
+        </nav>
+
+        <div th:if="${orgorderData != null}">
+            <h2>Pharmacy Orders</h2>
+            <table th:if="${!orgorderData.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Medicine Code</th>
+                        <th>Quantity</th>
+                        <th>Supplier</th>
+                        <th>Status</th>
+                        <th>Ordered Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="order : ${orgorderData}">
+                        <td th:text="${order.id}"></td>
+                        <td th:text="${order.medicine.medicineCode}"></td>
+                        <td th:text="${order.quantity}"></td>
+                        <td th:text="${order.supplier.username}"></td>
+                        <td th:text="${order.status}"></td>
+                        <td th:text="${#temporals.format(order.orderedDate, 'dd-MM-yyyy')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
